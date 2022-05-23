@@ -49,11 +49,14 @@ function Home() {
             console.log(cookie.load('role'))
             if(response.data.role == 2){
                 cookie.save('resId', response.data.resId)
+                cookie.save('brand', response.data.brand)
             } else if(response.data.role == 1){
                 cookie.save('consId', response.data.consId)
+                cookie.save('name', response.data.name)
+                console.log(cookie.load('name'))
             }
             if(response.data.role === 1 ){
-                navigate('/user/main', {state: {role: response.data.role,name: response.data.detail.name}, replace: true})
+                navigate('/user/info', {state: {role: response.data.role,name: response.data.detail.name}, replace: true})
             } else if(response.data.role === 2){
                 navigate('/manage/editItems', {state: {role: response.data.role}, replace: true})
             } else if(response.data.role === 0){

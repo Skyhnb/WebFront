@@ -3,6 +3,7 @@ import { Form, Input, Button, Upload, Icon, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import cookie from 'react-cookies'
 import axios from '../request';
+import 'antd/dist/antd.min.css'
 
 
 class AddItem extends React.Component {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from '../request';
 import cookie from 'react-cookies'
 import { Table } from 'antd';
-import 'antd/dist/antd.css'
+import 'antd/dist/antd.min.css'
 
 class Orderlist extends React.Component {
   constructor() {
@@ -66,8 +66,28 @@ class Orderlist extends React.Component {
 
     }
 
+
+
     render(){
       let self = this
+
+      const expandedRowRender = (record) => {
+        const columns = [
+            {title: 'FoodName', dataIndex:'foodName', key: 'foodName'},
+            {title:'Price', dataIndex:'price', key:'price'},
+            {title:'Count', dataIndex:'count', key:'count'}
+        ]
+        console.log('=====================')
+        console.log(record)
+  
+        // let childData = []
+        // data.children.forEach(element => {
+        //     childData = [...childData, element]
+        // });
+  
+        return <Table columns={columns} dataSource={record.details} pagination={false}/>
+    }
+
       const columns = [
         {title:'OrderNumber', dataIndex:'orderNum', key:'orderNum'},
         {title:'Brand',dataIndex:'brand',key:'brand'},
@@ -114,7 +134,8 @@ class Orderlist extends React.Component {
           orderId:element.orderId,
           resId: element.resId,
           consId:element.consId,
-          originStatus: element.status
+          originStatus: element.status,
+          details:element.details
         }
         data = [...data, order]
       })
@@ -123,6 +144,8 @@ class Orderlist extends React.Component {
         columns={columns}
         dataSource={data}
         pagination={false}
+        expandable={{expandedRowRender}}
+        rowKey = {record=>record.orderId}
         className="order"
 
         />

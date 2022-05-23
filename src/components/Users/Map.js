@@ -11,7 +11,7 @@ class Map extends Component {
     constructor() {
         super()
         this.state = {
-            order:""
+            order:{}
         }
     }
 
@@ -28,6 +28,7 @@ class Map extends Component {
                 this.setState({
                     order: res.data
                 })
+                console.log(this.state)
             })
     }
 
@@ -41,25 +42,48 @@ class Map extends Component {
             {title:'OrderNumber', dataIndex:'orderNum', key:'orderNum'},
             {title:'ETD',dataIndex:'ETD', key:'ETD'},
             {title:'Status', dataIndex:'orderStatus', key:'orderStatus'},
+            {title:'TotalPrice', dataIndex:'totalPrice', key:'totalPrice'}
         ]
-        
+        let orderStatus =""
         const data = self.state.order
-        // if (data.status == 0) {
-        //     status = "waiting to deliver"
-        // } else if (data.status == 1) {
-        //     status = "on the way"
-        // } else if (data.status == 2) {
-        //     status = "completed"
-        // }
+        if (data.status == 0) {
+            orderStatus = "waiting to deliver"
+        } else if (data.status == 1) {
+            orderStatus = "on the way"
+        } else if (data.status == 2) {
+            orderStatus = "completed"
+        }
+
+        data['orderStatus'] = orderStatus
+        console.log(data)
+        let tableData = []
+        tableData = [...tableData, data]
+
+        const expandedRowRender = (data) => {
+            const columns = [
+                {title: 'FoodName', dataIndex:'foodName', key: 'foodName'},
+                {title:'Price', dataIndex:'price', key:'price'},
+                {title:'Count', dataIndex:'count', key:'count'}
+            ]
+
+            let childData = []
+            data.detail.forEach(element => {
+                childData = [...childData, element]
+            });
+
+            return <Table columns={columns} dataSource={childData} pagination={false}/>
+        }
 
         return (
 
           <div> 
-              {/* <Table columns={columns}
-                    dataSource={data}
+              <Table columns={columns}
+                    dataSource={tableData}
                     pagination={false}
+                    expandable={{expandedRowRender}}
+                    className='order'
 
-              /> */}
+              />
             {/* <div className="map" style={{ width: `${width}px`, height: `${height}px`, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }} > */}
            
                 <img src={mapimage}  style={{width:'auto',height:'100%'}} alt=""/>

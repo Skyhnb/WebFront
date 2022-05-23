@@ -2,7 +2,7 @@ import { Table, Button, Input } from 'antd';
 import React, { Component , setState} from 'react';
 import cookie from 'react-cookies'
 import axios from './request'
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 
 
 class ManagerManage extends React.Component {
@@ -91,6 +91,7 @@ class ManagerManage extends React.Component {
           <Table columns={columns}
             dataSource={data}
             pagination={false}
+            rowKey={record=>record.resId}
             className="table"/>
         </div>
         // <div className="App">

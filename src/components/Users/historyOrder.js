@@ -2,6 +2,7 @@ import React, { Children, Component } from 'react';
 import axios from '../request';
 import cookie from 'react-cookies'
 import { Table } from 'antd';
+import 'antd/dist/antd.min.css'
 
 class HistoryOrder extends React.Component {
     constructor() {
@@ -35,7 +36,22 @@ class HistoryOrder extends React.Component {
     render() {
         let self = this
         
+        const expandedRowRender = (record) => {
+            const columns = [
+                {title: 'FoodName', dataIndex:'foodName', key: 'foodName'},
+                {title:'Price', dataIndex:'price', key:'price'},
+                {title:'Count', dataIndex:'count', key:'count'}
+            ]
+            console.log('=====================')
+            console.log(record)
 
+            // let childData = []
+            // data.children.forEach(element => {
+            //     childData = [...childData, element]
+            // });
+
+            return <Table columns={columns} dataSource={record.details} pagination={false}/>
+        }
         
         const columns = [
             { title: 'OrderNumber', dataIndex: 'orderNum', key: 'orderNum' },
@@ -47,11 +63,6 @@ class HistoryOrder extends React.Component {
             { title: 'Status', dataIndex: 'orderStatus', key: 'orderStatus' },
         ]
 
-        const childrenColumns = [
-            {title:'FoodName', dataIndex:'foodName', key:'foodName'},
-            {title:'Price', dataIndex:'price', key:'price'},
-            {title:'Count', dataIndex:'count', key:'count'}
-            ]
         let data = []
         this.state.orderList.forEach(element => {
             let status = 0
@@ -75,7 +86,7 @@ class HistoryOrder extends React.Component {
                 resId: element.resId,
                 consId: element.consId,
                 originStatus: element.status,
-                children:element.details
+                details:element.details
             }
             data = [...data, order]
         })
@@ -84,7 +95,8 @@ class HistoryOrder extends React.Component {
                 columns={columns}
                 dataSource={data}
                 pagination={false}
-                childrenColumnName={childrenColumns}
+                expandable={{expandedRowRender}}
+                rowKey={record=>record.orderId}
                 className="order"
 
             />

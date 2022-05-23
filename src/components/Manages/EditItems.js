@@ -2,7 +2,7 @@ import { Input, Table } from 'antd';
 import axios from '../request';
 import React, { Component, setState } from 'react';
 import cookie from 'react-cookies'
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 
 class EditItem extends React.Component {
     constructor() {
